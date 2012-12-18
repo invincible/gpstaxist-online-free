@@ -1,0 +1,19 @@
+ Volume in drive D is DATA
+ Volume Serial Number is FC31-BD33
+
+ Directory of D:\WORK\taxi_disp\receive
+
+[.]                   [..]                  bravo4a.dcu
+bravo4a.pas           city10.dcu            city10.pas
+dcalc.dcu             dcalc.pas             dcalc.~pas
+delta1.pas            lines.xml             lines.xml.save
+lines.xml.save.save   lines1.xml            lines2.xml
+main.dcu              main.ddp              main.dfm
+main.pas              main.~ddp             main.~dfm
+main.~pas             map7a.pas             qq.txt
+rec.log               receivedata.cfg       receivedata.dof
+receivedata.dpr       receivedata.dsk       receivedata.exe
+receivedata.res       receivedata.~dpr      receivedata.~dsk
+streets.txt           TPSTRING.PAS          xmleditor.exe
+              34 File(s)     16ÿ428ÿ857 bytes
+               2 Dir(s)  64ÿ229ÿ797ÿ888 bytes free
