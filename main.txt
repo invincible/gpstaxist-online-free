@@ -1,3 +1,4 @@
 tasp07 исходники на андроид
 taxixmpp шлюз ТД - навигаторы
 distdaemon расчет расстояний
+receive data delphi7 project расчет расстояний
