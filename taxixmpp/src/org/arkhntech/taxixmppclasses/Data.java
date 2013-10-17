@@ -1066,6 +1066,9 @@ public class Data extends TimerTask {
 					+ "orders.preorder,orders.orderstate as orderstate,orders.num,orders.street,orders.house,orders.porch,"
 					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto from orders,drivershift where "
 					+ " orders.drivershift=drivershift.num and drivershift.sign=? ");
+			//по просьбе казани /
+			//mysql.prepare("call get_order1(?)");
+			
 			mysql.setString(1, comm.sign);
 			if (mysql.queryPrep()) {
 				hasOrder = true;
@@ -1073,18 +1076,22 @@ public class Data extends TimerTask {
 			String commstr = "";
 			if (!hasOrder && !cfg.only_disp) {
 				commstr = "select route as route,meet as meet,hour(pretime)as hr,minute(pretime) as mn,preorder,num,street,"
-						+ "house,porch,addressfrom,streetto,houseto,addressto from orders where "
+						+ "house,porch,addressfrom,streetto,houseto,addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena from orders where "
 						+ " orderstate=0 and (preorder=0 or ((pretime-interval "
 						+ cfg.pretime
 						+ " minute) < now()))and not (street is null) and length(street)>3 and ordertime< (now()-interval "
 						+ cfg.freerun_delay + " minute ) ";
+				
+				
 				if (cfg.order_vendor != null) {
 					commstr += " and ordervendor='" + cfg.order_vendor + "' ";
 				}
 				if (cfg.freerun_denied_prefix.length() > 0)
 					commstr += " and not (meet like '"
 							+ cfg.freerun_denied_prefix + "%')";
-				// System.out.println(commstr);
+				 //System.out.println(commstr);
+				//по просьбе казани /
+				//commstr = "call get_order2("+comm.sign+","+cfg.pretime+","+cfg.freerun_delay+")";
 				mysql.prepare(commstr);
 				mysql.queryPrep();
 			}
@@ -1140,11 +1147,19 @@ public class Data extends TimerTask {
 				}
 
 				out += "0\n0\nR_ORDER\n";
-				out += "id:" + mysql.getInt("num") + "|" + "address:ул "
-						+ mysql.getString("street") + ", д " + home + ", пд "
-						+ mysql.getString("porch") + ", "
-						+ mysql.getString("addressfrom") + ", "
-						+ mysql.getString("meet") + " " + mess;
+			//	out += "id:" + mysql.getInt("num") + "|" + "address:ул "
+			//			+ mysql.getString("street") + ", д " + home + ", пд "
+			//			+ mysql.getString("porch") + ", "
+			//			+ mysql.getString("addressfrom") + ", "
+			//			+ mysql.getString("meet") + " " + mess;
+					out += "id:" + mysql.getInt("num") + "|"
+							// добавляем время приема заказа
+			                + "address:"+mysql.getString("ohr")+"-"+mysql.getString("omn")+" ул "
+							+ mysql.getString("street") + ", д " + home + ", пд "
+							+ mysql.getString("porch") + ", "
+							+ mysql.getString("addressfrom") + ", "
+							+ mysql.getString("meet") + " " + mess+" ЦЕНА "+mysql.getString("cena");
+					
 				if (hasOrder) {
 					out += " Закреплен за " + comm.sign;
 				}

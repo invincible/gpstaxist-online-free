@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="/home/arkhnchul/workspace/smack_src_3_1_0/smackx-debug.jar"/>
-	<classpathentry kind="lib" path="/home/arkhnchul/android/work/mysql-connector-java-5.1.18-bin.jar"/>
-	<classpathentry kind="lib" path="/home/arkhnchul/workspace/postgresql-8.4-702.jdbc4.jar"/>
-	<classpathentry kind="lib" path="/home/arkhnchul/workspace/ini4j-0.5.1/ini4j-0.5.1.jar"/>
-	<classpathentry kind="lib" path="/home/arkhnchul/workspace/smack_src_3_1_0/smackx.jar"/>
+	<classpathentry kind="lib" path="/home/misha/android/work/smack_src_3_1_0/smackx.jar"/>
+	<classpathentry kind="lib" path="/home/misha/android/work/mysql-connector-java-5.1.18-bin.jar"/>
+	<classpathentry kind="lib" path="/home/misha/android/work/postgresql-9.1-901.jdbc4.jar"/>
+	<classpathentry kind="lib" path="/home/misha/android/work/ini4j-0.5.1.jar"/>
+	<classpathentry kind="lib" path="/home/misha/android/work/smack_src_3_1_0/smackx-debug.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
