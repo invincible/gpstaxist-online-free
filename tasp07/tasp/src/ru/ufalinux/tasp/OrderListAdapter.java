@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class OrderListAdapter extends BaseAdapter{
 
 	private Context context;
-	private Vector<Order>orders=new Vector<Order>();
+	private Vector<Order>orders= new Vector<Order>();
 	
 	public void clear(){
 		orders.clear();

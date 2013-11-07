@@ -87,8 +87,8 @@ public class OrderListActivity extends Activity {
 													.setMessage("Ожидание подтверждения...");
 											progThread = new ProgressThread(
 													handler2);
-											progThread.start();
-											progDialog.show();
+											// mmm62 для 4 андроида // progThread.start();
+											// mmm62 для 4 андроида // progDialog.show();
 											dialog.dismiss();
 										}
 									}
@@ -131,8 +131,8 @@ public class OrderListActivity extends Activity {
 													.setMessage("Ожидание подтверждения...");
 											progThread = new ProgressThread(
 													handler2);
-											progThread.start();
-											progDialog.show();
+											// mmm62 для 4 андроида // progThread.start();
+											// mmm62 для 4 андроида //progDialog.show();
 											dialog.dismiss();
 										}
 									}

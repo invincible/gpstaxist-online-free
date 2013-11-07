@@ -279,8 +279,8 @@ public class TaxometerActivity extends Activity {
 		progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progDialog.setMessage("Ожидание подтверждения...");
 		progThread = new ProgressThread(handler2);
-		progThread.start();
-		progDialog.show();
+		// mmm62 для 4 андроида //progThread.start();
+		// mmm62 для 4 андроида //progDialog.show();
 	}
 
 	private class UpdateThread extends Thread {

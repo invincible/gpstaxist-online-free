@@ -71,8 +71,8 @@ public class OrderInfoActivity extends Activity {
 		progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progDialog.setMessage("Ожидание подтверждения...");
 		progThread = new ProgressThread(handler2);
-		progThread.start();
-		progDialog.show();
+		// mmm62 для 4 андроида //progThread.start();
+		// mmm62 для 4 андроида //progDialog.show();
 //		showDialog(DIALOG_AWAITING_ONPLACE);
 //		tv.setText("Текущий заказ:\n" + Data.currOrder.addressfrom
 //				+ "\n----\n" + Data.currOrder.addressto);
@@ -101,7 +101,7 @@ public class OrderInfoActivity extends Activity {
 			progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 			progDialog.setMessage("Ожидание подтверждения...");
 			progThread = new ProgressThread(handler2);
-			progThread.start();
+			// mmm62 для 4 андроида //progThread.start();
 			dialog = progDialog;
 			break;
 		default:
@@ -117,7 +117,7 @@ public class OrderInfoActivity extends Activity {
 			if (total <= 0) {
 				progDialog.dismiss();
 				progThread.setState(ProgressThread.DONE);
-				progThread.stop();
+				// mmm62 для 4 андроида //progThread.stop();
 				if (Data.currState == Types.A_ORDER_WAITING) {
 					tv.setText("Текущий заказ:\n" + Data.currOrder.addressfrom
 							+ "\n----\n" + Data.currOrder.addressto);
