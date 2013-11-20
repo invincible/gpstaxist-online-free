@@ -20,4 +20,5 @@
     <string name="totalKmLabelStaticText">Километраж</string>
     <string name="totalMinutesLabelStaticText">Общий простой</string>
     <string name="totalCostLabelStaticText">р.</string>
+    <string name="dispJabberAccount">disp</string>
 </resources>

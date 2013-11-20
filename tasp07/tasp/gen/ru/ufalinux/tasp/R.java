@@ -92,6 +92,7 @@ public final class R {
         public static final int app_name=0x7f040001;
         public static final int callLabelText=0x7f04000d;
         public static final int carLabelText=0x7f040003;
+        public static final int dispJabberAccount=0x7f040014;
         public static final int exitButonText=0x7f040002;
         public static final int hello=0x7f040000;
         public static final int jabberDispLabelText=0x7f04000b;
