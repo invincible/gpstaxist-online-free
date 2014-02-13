@@ -292,8 +292,8 @@ public class Data extends TimerTask {
 			mysql.setString(1, comm.sign);
 			mysql.queryPrep();
 			if (!mysql.next()) {
-				String sql = "insert into drivershift (driver,sign,channel,pager,car,carid,starttime,stoporder) select "
-						+ "refdrivers.num,refdrivers.sign,?,refdrivers.pager,refcars.carnumber,refcars.num,now(),1 "
+				String sql = "insert into drivershift (driver,sign,channel,pager,car,carid,starttime,stoporder,drvstate) select "
+						+ "refdrivers.num,refdrivers.sign,?,refdrivers.pager,refcars.carnumber,refcars.num,now(),1,1 "
 						+ " from refdrivers,refcars where refdrivers.sign=? and refcars.num=?";
 				// System.out.println(sql);
 				mysql.prepare(sql);
@@ -1039,11 +1039,24 @@ public class Data extends TimerTask {
 		}
 
 		try {
-			mysql.prepare("update drivershift set drvstate=?,statetime=now() where sign=? and endtime is null");
-			mysql.setLong(1, comm.body.get("id"));
-			mysql.setString(2, comm.sign);
-			mysql.executePrep();
-			return "0\n0\nA_OK";
+			if (comm.body.get("id").equals("1") ||  // свободен  со стоянок не снимаем
+				comm.body.get("id").equals("12") || // на телефоне со стоянок не снимаем
+				comm.body.get("id").equals("18"))   // после отбоя со стоянок не снимаем
+			{
+				mysql.prepare("update drivershift set drvstate=?,statetime=now() where sign=? and endtime is null");
+				mysql.setLong(1, comm.body.get("id"));
+				mysql.setString(2, comm.sign);
+				mysql.executePrep();
+				return "0\n0\nA_OK";
+			}
+			else
+			{
+			   mysql.prepare("update drivershift set drvstate=?,statetime=now(),stopid=0,stoporder=0 where sign=? and endtime is null");
+			   mysql.setLong(1, comm.body.get("id"));
+			   mysql.setString(2, comm.sign);
+			   mysql.executePrep();
+			   return "0\n0\nA_OK";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1064,7 +1077,7 @@ public class Data extends TimerTask {
 			boolean hasOrder = false;
 			mysql.prepare("select orders.route as route,orders.meet as meet,hour(orders.pretime)as hr,minute(orders.pretime) as mn,"
 					+ "orders.preorder,orders.orderstate as orderstate,orders.num,orders.street,orders.house,orders.porch,"
-					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto from orders,drivershift where "
+					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena from orders,drivershift where "
 					+ " orders.drivershift=drivershift.num and drivershift.sign=? ");
 			//по просьбе казани /
 			//mysql.prepare("call get_order1(?)");
