@@ -31,7 +31,7 @@ public class Command {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else if (type.equals("A_DRVSTATEID")){
+		}else if (type.equals("A_DRVSTATEID") || type.equals("A_DRVSTOPSID")){
 			StringTokenizer strt = new StringTokenizer(body, "|");
 			System.err.println(body);
 			System.err.println(strt.countTokens()+" tokens");

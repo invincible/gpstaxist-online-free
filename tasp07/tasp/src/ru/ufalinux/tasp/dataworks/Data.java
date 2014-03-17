@@ -17,6 +17,7 @@ import android.location.LocationManager;
 
 public class Data {
 
+	public static final String TAG = "TASP07";
 	public static String devID;
 	public static String sign;
 	public static String password;
@@ -46,6 +47,7 @@ public class Data {
 	public static long lastJabberAct = 70;
 	public static boolean jabberLogged = false;
 	public static Vector<Driverstate> driverstates;
+	public static Vector<Driverstops> driverstops;
 	public static boolean ordersChanged=false;
 	
 	public Data() {
@@ -61,6 +63,7 @@ public class Data {
 		password = "123";
 		car = "7";
 		driverstates=new Vector<Driverstate>();
+		driverstops=new Vector<Driverstops>();
 	}
 
 	public static void changeTariff(Tariff newTariff){
@@ -171,11 +174,12 @@ public class Data {
 			}
 	}
 
-	public static void requestStates(){
-		Command comm=new Command();
-		comm.type="R_DRVSTATEID";
-		outcoming.push(comm);
-	}
+//	public static void requestStates(){
+//		Command comm=new Command();
+//		comm.type="R_DRVSTATEID";
+//		outcoming.push(comm);
+//	}
+	
 	
 	public static void requestOnPlace(Long id) {
 		Command comm = new Command();
@@ -253,18 +257,32 @@ public class Data {
 		outcoming.push(comm);
 	}
 
-	public static void requestStatus(int id){
+	public static void requestStatus(int id){ //меняем статус
 		Command comm=new Command();
 		comm.type="A_DRVSTATE";
 		comm.body.put("id", ""+id);
 		outcoming.push(comm);
 	}
+
+	public static void requestStop(int id){ //ставимся на стоянку
+		Command comm=new Command();
+		comm.type="A_DRVSTOP";
+		comm.body.put("id", ""+id);
+		outcoming.push(comm);
+	}
+
 	
 	public static void requestDrvstates(){
 		Command comm=new Command();
 		comm.type="R_DRVSTATEID";
 		outcoming.push(comm);
 //		waiting=Types.A_DRVSTATEID;
+	}
+	
+	public static void requestStops(){
+		Command comm=new Command();
+		comm.type="R_DRVSTOPSID";
+		outcoming.push(comm);
 	}
 	
 }

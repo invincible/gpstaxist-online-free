@@ -4,6 +4,7 @@ import java.util.Collections;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import ru.ufalinux.tasp.MainActivity;
 import ru.ufalinux.tasp.R;
 import ru.ufalinux.tasp.jabberworks.Command;
@@ -48,7 +49,12 @@ public class ProcessingThread implements Runnable {
 							processR_ANDROIDUPDATE(comm);
 							break;
 						case A_DRVSTATEID:
+							Log.d(Data.TAG, "comm STATE="+comm.toString()); 
 							processA_DRVSTATEID(comm);
+							break;
+						case A_DRVSTOPSID:
+							Log.d(Data.TAG, "comm STOPS="+comm.toString()); 
+							processA_DRVSTOPSID(comm);
 							break;
 						default:
 							System.out.println("Invalid command " + comm.type);
@@ -164,6 +170,8 @@ public class ProcessingThread implements Runnable {
 			Data.requestConfig();
 			Data.requestDrvstates();
 			Data.requestOrders();
+			
+			Data.requestStops();
 			break;
 		case R_FREERUN:
 			Data.waiting = Types.NONE;
@@ -215,15 +223,46 @@ public class ProcessingThread implements Runnable {
 		// comm.body.get("state"+i+1)));
 		// System.err.println(comm.body.get("id"+i));
 		// }
+		Log.d(Data.TAG, "==== A_DRVSTATEID ===== "+ comm.body.toString());
 		for (String num : comm.body.keySet()) {
 			System.err.println("num:" + num);
+			Log.d(Data.TAG,"A_DRVSTATEID" + num.toString()+ comm.body.get(num));
 			Driverstate curr = new Driverstate(Integer.parseInt(num),
 					comm.body.get(num));
 			Data.driverstates.add(curr);
 		}
+
+		Log.d(Data.TAG, "A_DRVSTATEID");
+		//for (String num : comm.body.keySet()) {
+		//	System.err.println("num:" + num);
+		//	Driverstops curr = new Driverstops(Integer.parseInt(num),
+		//			comm.body.get(num));
+		//	Data.driverstops.add(curr);
+		//}
+
 		System.err.println(Data.driverstates.size() + " states");
+		//System.err.println(Data.driverstops.size() + " states");
 		Collections.sort(Data.driverstates);
+		//Collections.sort(Data.driverstops);
 	}
+	public void processA_DRVSTOPSID(Command comm) {
+		
+
+		Log.d(Data.TAG, "==== A_DRVSTOPSID ===== "+ comm.body.toString());
+		for (String num : comm.body.keySet()) {
+			System.err.println("num:" + num);
+			Log.d(Data.TAG,"33A_DRVSTOPSID" + num.toString()+ comm.body.get(num));
+			Driverstops curr = new Driverstops(Integer.parseInt(num),
+					comm.body.get(num));
+			Data.driverstops.add(curr);
+		}
+
+		//System.err.println(Data.driverstates.size() + " states");
+		System.err.println(Data.driverstops.size() + " states");
+		//Collections.sort(Data.driverstates);
+		Collections.sort(Data.driverstops);
+	}
+	
 
 	public void processA_INFO(Command comm) {
 		Data.alert = "Сообщение:\n" + comm.body.get("info");

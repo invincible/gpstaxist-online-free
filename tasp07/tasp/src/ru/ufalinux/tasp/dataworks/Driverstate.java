@@ -1,6 +1,7 @@
 package ru.ufalinux.tasp.dataworks;
 
 public class Driverstate implements Comparable<Driverstate>{
+	
 	public int id=0;
 	public String name="";
 	

@@ -2,56 +2,54 @@ package ru.ufalinux.tasp;
 
 import java.util.Vector;
 
-import ru.ufalinux.tasp.dataworks.Data;
-import ru.ufalinux.tasp.dataworks.Driverstate;
+import ru.ufalinux.tasp.dataworks.Driverstops;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class StatesListAdapter extends BaseAdapter{
+public class StopsListAdapter extends BaseAdapter{
 
 	private Context context;
-	private Vector<Driverstate>states=new Vector<Driverstate>();
+	private Vector<Driverstops>stops=new Vector<Driverstops>();
 	
 	public void clear(){
-		states.clear();
+		stops.clear();
 	}
 	
-	public void add(Driverstate curr){
-		states.add(curr);
+	public void add(Driverstops curr){
+		stops.add(curr);
 	}
 	
-	public void setData(Vector<Driverstate> vec){
-		states=vec;
+	public void setData(Vector<Driverstops> vec){
+		stops=vec;
 	}
 	
 	public int getCount() {
-		return states.size();
+		return stops.size();
 	}
 
-	public StatesListAdapter(Context context) {
+	public StopsListAdapter(Context context) {
 		this.context = context;
 	}
 
 	public Object getItem(int pos) {
-		if (pos >= 0 && pos < states.size())
-			return states.get(pos);
+		if (pos >= 0 && pos < stops.size())
+			return stops.get(pos);
 		return null;
 	}
 
 	public long getItemId(int pos) {
-		if (states.isEmpty())
+		if (stops.isEmpty())
 			return 0;
-		return states.get(pos).id;
+		return stops.get(pos).id;
 	}
 
 	public View getView(int pos, View convertView, ViewGroup parent) {
 		View view = null;
-		Log.d(Data.TAG, "Get vIew");
+
 		// Проверяем существуествование объекта для текущеё позиции
 		if (convertView != null) {
 			// Если существует то, берем текущий объект
@@ -79,12 +77,11 @@ public class StatesListAdapter extends BaseAdapter{
 	private void bindView(int pos, View view) {
 		// Получаем TextView из родительского View по ID для изменения
 		// параметров объекта
-		Log.d(Data.TAG, "Bind vIew");
 		TextView labelView = (TextView) view
 				.findViewById(R.id.orderListLabelMain);
-		Driverstate curr = states.get(pos);
+		Driverstops curr = stops.get(pos);
 
-//		String mainLabel = curr.id+" "+curr.name;
+		//String mainLabel = curr.id+" "+curr.name;
 		String mainLabel = curr.name;
 		labelView.setText(mainLabel);
 	}

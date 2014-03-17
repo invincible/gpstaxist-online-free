@@ -25,7 +25,8 @@ import org.jivesoftware.smack.packet.Packet;
 public class Data extends TimerTask {
 
 	enum types {
-		A_OK, R_OPEN, R_STOPSID, A_STOPSID, R_ORDER, A_ORDER, R_DRVSTATEID, A_DRVSTATEID, A_DRVSTATE, A_INFO, R_FREERUN, R_TARIF, A_TARIF, R_CALL, A_CALL, A_COORDS, A_ERR, R_CLOSE, R_ALARM, R_PARKINGID, R_NOALARM, R_CONFIG, R_PARKING, R_SETTINGS
+		A_OK, R_OPEN, R_DRVSTOPSID, A_DRVSTOPSID, R_ORDER, A_ORDER, R_DRVSTATEID, A_DRVSTATEID, A_DRVSTATE, A_INFO, R_FREERUN, R_TARIF, A_TARIF, R_CALL, A_CALL, A_COORDS, A_ERR, R_CLOSE, R_ALARM, R_PARKINGID, R_NOALARM, R_CONFIG, R_PARKING, R_SETTINGS, A_DRVSTOP
+
 	}
 
 	XMPPConnection connection;
@@ -220,9 +221,9 @@ public class Data extends TimerTask {
 
 			mysql.next();
 			String tnum = mysql.getString("taxnum");
-			String channel=mysql.getString("channel");
-			if(channel==null){
-				channel=""+cfg.channel;
+			String channel = mysql.getString("channel");
+			if (channel == null) {
+				channel = "" + cfg.channel;
 			}
 			if (!tnum.equals(comm.body.get("pass"))) {
 				System.out.println(sdf.format(Calendar.getInstance().getTime())
@@ -351,16 +352,17 @@ public class Data extends TimerTask {
 					return "0\n0\nA_ERR\ninfo:Заказ уже занят или отклонен";
 				}
 				// изменения вносил михаил 16.08.2012 //begin
-				// проверка, что водитель не на другом заказе, почему ее раньше НЕ БЫЛО!!! луч поноса Севе 
+				// проверка, что водитель не на другом заказе, почему ее раньше
+				// НЕ БЫЛО!!! луч поноса Севе
 				mysql.prepare("select count(*) as cnt from orders,drivershift where orders.drivershift=drivershift.num and sign=? and orders.num<>?");
 				mysql.setString(1, comm.sign);
-				mysql.setLong  (2, order);
+				mysql.setLong(2, order);
 				mysql.queryPrep();
 				mysql.next();
 				if (mysql.getLong("cnt") != 0) {
-					return "0\n0\nA_ERR\ninfo:Вам назначен другой заказ";	
+					return "0\n0\nA_ERR\ninfo:Вам назначен другой заказ";
 				}
-				// изменения вносил михаил  // end
+				// изменения вносил михаил // end
 
 				try {
 					mysql.prepare("select drivershift.sign as sign from orders,drivershift "
@@ -629,7 +631,7 @@ public class Data extends TimerTask {
 						+ " sign=" + comm.sign + " completes order " + order
 						+ " price " + comm.body.get("price"));
 				int endtask = 1;
-				int cnt=0;
+				int cnt = 0;
 				mysql.prepare("select num from orders where num=? and street like '%бордюр%'");
 				mysql.setLong(1, comm.body.get("id"));
 				mysql.queryPrep();
@@ -788,25 +790,27 @@ public class Data extends TimerTask {
 						+ order);
 				// mmm62 2012
 				String outString = "0\n0\nA_ERR\ninfo:Отказ запрещен. Заказ остается закрепленным за вами.";
-				
+
 				// отказ водителя 2012 mmm62
-				String tmp =
-				 "update orders,drivershift set orders.orderstate=0,"
-				 + "orders.driver=null,orders.drivershift=null,mess='"
-				 + comm.sign
-				 + " отказался' where orders.num="
-				 + order
-				 + " and drivershift.sign='"
-				 + comm.sign
-				 + "' and drivershift.num=orders.drivershift;";
-				  System.out.println(tmp);
-				 //int cnt = mysqlstat.executeUpdate(tmp);
-				 mysql.prepare(tmp);	 mysql.queryPrep();
-				 tmp = "update drivershift set drvstate=1,statetime=now() where sign='" + comm.sign + "' and endtime is null;";
-				 mysql.prepare(tmp);	 mysql.queryPrep();
-				 //if (cnt == 1)
-				 //return "0\n0\nA_OK";
-				 // xxxxxxxxxxx mmm62
+				String tmp = "update orders,drivershift set orders.orderstate=0,"
+						+ "orders.driver=null,orders.drivershift=null,mess='"
+						+ comm.sign
+						+ " отказался' where orders.num="
+						+ order
+						+ " and drivershift.sign='"
+						+ comm.sign
+						+ "' and drivershift.num=orders.drivershift;";
+				System.out.println(tmp);
+				// int cnt = mysqlstat.executeUpdate(tmp);
+				mysql.prepare(tmp);
+				mysql.queryPrep();
+				tmp = "update drivershift set drvstate=1,statetime=now() where sign='"
+						+ comm.sign + "' and endtime is null;";
+				mysql.prepare(tmp);
+				mysql.queryPrep();
+				// if (cnt == 1)
+				// return "0\n0\nA_OK";
+				// xxxxxxxxxxx mmm62
 				mysql.prepare("select num from orders where num=? and driver=? and orderstate<=2"
 						+ "");
 				mysql.setLong(1, comm.body.get("id"));
@@ -853,6 +857,31 @@ public class Data extends TimerTask {
 			out = out + num.charAt(i);
 		}
 		return out;
+	}
+
+	private String processRDrvstopsID(Command comm) {
+		// TODO Auto-generated method stub
+		try {
+			// if (!cfg.disable_busy_state) {
+			mysql.prepare("select num,name from refstops order by num;");
+			// mysql.prepare("select num,name from refdrvstates where not (num=2) order by num;");
+			// } else {
+			// mysql.prepare("select num,name from refdrvstates where not (num=2) order by num"
+			// + ";");
+			mysql.queryPrep();
+			String out = "0\n0\nA_DRVSTOPSID\n";
+			while (mysql.next()) {
+				out += "id:" + mysql.getInt("num") + "|stop:"
+						+ mysql.getString("name") + "|";
+			}
+			// System.out.println("MMMMMMMMMMMMM="out);
+			System.out.print("MMMMMMMMMMMMM=" + out);
+
+			return out;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "0\n0\nA_ERR";
 	}
 
 	public String processRDrvstateID(Command comm) {
@@ -919,6 +948,7 @@ public class Data extends TimerTask {
 			// String currorder = checkOrder(comm.sign);
 			// if (currorder != null)
 			// out += "$" + currorder;
+			System.out.println("QQQQQQQQQQQQQ=" + out.toString());
 			return out;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1039,23 +1069,33 @@ public class Data extends TimerTask {
 		}
 
 		try {
-			if (comm.body.get("id").equals("1") ||  // свободен  со стоянок не снимаем
-				comm.body.get("id").equals("12") || // на телефоне со стоянок не снимаем
-				comm.body.get("id").equals("18"))   // после отбоя со стоянок не снимаем
+
+			mysql.prepare("select name from refdrvstates where num=?");
+			mysql.setLong(1, comm.body.get("id"));
+			mysql.queryPrep(); mysql.next();
+			String statename = mysql.getString("name");
+			String out = "Вы изменили статус на " + statename;
+			
+			if (comm.body.get("id").equals("1") || // свободен со стоянок не
+													// снимаем
+					comm.body.get("id").equals("12") || // на телефоне со
+														// стоянок не снимаем
+					comm.body.get("id").equals("18")) // после отбоя со стоянок
+														// не снимаем
 			{
 				mysql.prepare("update drivershift set drvstate=?,statetime=now() where sign=? and endtime is null");
 				mysql.setLong(1, comm.body.get("id"));
 				mysql.setString(2, comm.sign);
 				mysql.executePrep();
-				return "0\n0\nA_OK";
-			}
-			else
-			{
-			   mysql.prepare("update drivershift set drvstate=?,statetime=now(),stopid=0,stoporder=0 where sign=? and endtime is null");
-			   mysql.setLong(1, comm.body.get("id"));
-			   mysql.setString(2, comm.sign);
-			   mysql.executePrep();
-			   return "0\n0\nA_OK";
+				//return "0\n0\nA_OK";
+				return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
+			} else {
+				mysql.prepare("update drivershift set drvstate=?,statetime=now(),stopid=0,stoporder=0 where sign=? and endtime is null");
+				mysql.setLong(1, comm.body.get("id"));
+				mysql.setString(2, comm.sign);
+				mysql.executePrep();
+				//return "0\n0\nA_OK";
+				return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1079,9 +1119,9 @@ public class Data extends TimerTask {
 					+ "orders.preorder,orders.orderstate as orderstate,orders.num,orders.street,orders.house,orders.porch,"
 					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena from orders,drivershift where "
 					+ " orders.drivershift=drivershift.num and drivershift.sign=? ");
-			//по просьбе казани /
-			//mysql.prepare("call get_order1(?)");
-			
+			// по просьбе казани /
+			// mysql.prepare("call get_order1(?)");
+
 			mysql.setString(1, comm.sign);
 			if (mysql.queryPrep()) {
 				hasOrder = true;
@@ -1094,17 +1134,17 @@ public class Data extends TimerTask {
 						+ cfg.pretime
 						+ " minute) < now()))and not (street is null) and length(street)>3 and ordertime< (now()-interval "
 						+ cfg.freerun_delay + " minute ) ";
-				
-				
+
 				if (cfg.order_vendor != null) {
 					commstr += " and ordervendor='" + cfg.order_vendor + "' ";
 				}
 				if (cfg.freerun_denied_prefix.length() > 0)
 					commstr += " and not (meet like '"
 							+ cfg.freerun_denied_prefix + "%')";
-				 //System.out.println(commstr);
-				//по просьбе казани /
-				//commstr = "call get_order2("+comm.sign+","+cfg.pretime+","+cfg.freerun_delay+")";
+				// System.out.println(commstr);
+				// по просьбе казани /
+				// commstr =
+				// "call get_order2("+comm.sign+","+cfg.pretime+","+cfg.freerun_delay+")";
 				mysql.prepare(commstr);
 				mysql.queryPrep();
 			}
@@ -1160,19 +1200,23 @@ public class Data extends TimerTask {
 				}
 
 				out += "0\n0\nR_ORDER\n";
-			//	out += "id:" + mysql.getInt("num") + "|" + "address:ул "
-			//			+ mysql.getString("street") + ", д " + home + ", пд "
-			//			+ mysql.getString("porch") + ", "
-			//			+ mysql.getString("addressfrom") + ", "
-			//			+ mysql.getString("meet") + " " + mess;
-					out += "id:" + mysql.getInt("num") + "|"
-							// добавляем время приема заказа
-			                + "address:"+mysql.getString("ohr")+"-"+mysql.getString("omn")+" ул "
-							+ mysql.getString("street") + ", д " + home + ", пд "
-							+ mysql.getString("porch") + ", "
-							+ mysql.getString("addressfrom") + ", "
-							+ mysql.getString("meet") + " " + mess+" ЦЕНА "+mysql.getString("cena");
-					
+				// out += "id:" + mysql.getInt("num") + "|" + "address:ул "
+				// + mysql.getString("street") + ", д " + home + ", пд "
+				// + mysql.getString("porch") + ", "
+				// + mysql.getString("addressfrom") + ", "
+				// + mysql.getString("meet") + " " + mess;
+				out += "id:"
+						+ mysql.getInt("num")
+						+ "|"
+						// добавляем время приема заказа
+						+ "address:" + mysql.getString("ohr") + "-"
+						+ mysql.getString("omn") + " ул "
+						+ mysql.getString("street") + ", д " + home + ", пд "
+						+ mysql.getString("porch") + ", "
+						+ mysql.getString("addressfrom") + ", "
+						+ mysql.getString("meet") + " " + mess + " ЦЕНА "
+						+ mysql.getString("cena");
+
 				if (hasOrder) {
 					out += " Закреплен за " + comm.sign;
 				}
@@ -1633,63 +1677,71 @@ public class Data extends TimerTask {
 
 		boolean dontsend = false;
 
-		try{
-		switch (types.valueOf(strType)) {
-		case A_OK:
-			dontsend = true;
-			break;
-		case R_SETTINGS:
-			outBody = processRSettngs(comm);
-			break;
-		case R_OPEN:
-			outBody = processROpen(comm);
-			break;
-		case R_CLOSE:
-			outBody = processRClose(comm);
-			break;
-		case A_ORDER:
-			outBody = processAOrder(comm);
-			break;
-		case R_DRVSTATEID:
-			outBody = processRDrvstateID(comm);
-			break;
-		case A_DRVSTATE:
-			outBody = processADrvstate(comm);
-			break;
-		case A_INFO:
-			outBody = processAInfo(comm);
-			break;
-		case R_FREERUN:
-			outBody = processRFreerun(comm);
-			break;
-		case R_ALARM:
-			outBody = processRAlarm(comm);
-			// outBody="0\n0\nA_OK";
-			break;
-		case R_TARIF:
-			outBody += "R_TARIF\nname:тариф1|MinimalKm:0|MinimalPrice:50|PriceKm:10|PriceMinute:2|WaitMinutes:10"
-					+ "|AutoMinutes:0|AutoMinutesSpeed:0|AutoMinutesTime:2|AutoKm:0|AutoKmSpeed:5|AutoKmTime:5";
-			break;
-		case R_CALL:
-			outBody += "A_CALL\nname:Подача 1|price:10|name:Подача 2|price:20";
-			break;
-		case A_COORDS:
-			processACoords(comm);
-			// outBody += "A_OK";
-			return true;
-			// break;
-		case R_CONFIG:
-			outBody += processRConfig(comm);
-			break;
-		case R_PARKINGID:
-			outBody = processRParkingsID(comm);
-			break;
-		default:
-			outBody += "A_ERR";
-			break;
-		}}catch(Exception e){
+		try {
+			switch (types.valueOf(strType)) {
+			case A_OK:
+				dontsend = true;
+				break;
+			case R_SETTINGS:
+				outBody = processRSettngs(comm);
+				break;
+			case R_OPEN:
+				outBody = processROpen(comm);
+				break;
+			case R_CLOSE:
+				outBody = processRClose(comm);
+				break;
+			case A_ORDER:
+				outBody = processAOrder(comm);
+				break;
+			case R_DRVSTATEID:
+				outBody = processRDrvstateID(comm);
+				break;
+			case A_DRVSTATE:
+				outBody = processADrvstate(comm);
+				break;
+			case A_DRVSTOP:
+				outBody = processADrvstop(comm);
+				break;
+			case R_DRVSTOPSID:
+				outBody = processRDrvstopsID(comm);
+				System.out.println("OUT BODY=" + outBody.toString());
+				break;
+			case A_INFO:
+				outBody = processAInfo(comm);
+				break;
+			case R_FREERUN:
+				outBody = processRFreerun(comm);
+				break;
+			case R_ALARM:
+				outBody = processRAlarm(comm);
+				// outBody="0\n0\nA_OK";
+				break;
+			case R_TARIF:
+				outBody += "R_TARIF\nname:тариф1|MinimalKm:0|MinimalPrice:50|PriceKm:10|PriceMinute:2|WaitMinutes:10"
+						+ "|AutoMinutes:0|AutoMinutesSpeed:0|AutoMinutesTime:2|AutoKm:0|AutoKmSpeed:5|AutoKmTime:5";
+				break;
+			case R_CALL:
+				outBody += "A_CALL\nname:Подача 1|price:10|name:Подача 2|price:20";
+				break;
+			case A_COORDS:
+				processACoords(comm);
+				// outBody += "A_OK";
+				return true;
+				// break;
+			case R_CONFIG:
+				outBody += processRConfig(comm);
+				break;
+			case R_PARKINGID:
+				outBody = processRParkingsID(comm);
+				break;
+			default:
+				outBody += "A_ERR";
+				break;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
-			outBody+="A_ERR\ninfo:пнх";
+			outBody += "A_ERR\ninfo:пнх";
 		}
 
 		// if(type!=TYPE_R_FREERUN)
@@ -1702,6 +1754,38 @@ public class Data extends TimerTask {
 						.nextToken()));
 		}
 		return true;
+	}
+
+	public String processADrvstop(Command comm) { // обработка команды
+													// постановки на стоянку
+		try { // # запрашиваем количество на стоянке и ставим последним
+			mysql.prepare("select count(*) as carscount from drivershift where endtime is NULL and stopid=? limit 1;");
+			mysql.setLong(1, comm.body.get("id"));
+			mysql.queryPrep();
+			mysql.next();
+			Integer carscount = mysql.getInt("carscount");
+			System.out.println("CARSCOUNT="+carscount.toString());
+			carscount=carscount+1;
+			mysql.prepare("update drivershift set stopid=?, stoporder=? where endtime is NULL and sign=?;");
+			mysql.setLong(1, comm.body.get("id"));
+			mysql.setLong(2, carscount);
+			mysql.setString(3, comm.sign);
+			mysql.executePrep();
+
+			mysql.prepare("select name from refstops where num=?;");
+			mysql.setLong(1, comm.body.get("id"));
+			mysql.queryPrep();mysql.next();
+			String stopname = mysql.getString("name");
+			String out = "Вы отмечены на стоянке " + stopname;
+			return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
+
+		//return "0\n0\nA_OK";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "0\n0\nA_ERR";
+
 	}
 
 	private String processRConfig(Command comm) {

@@ -3,7 +3,7 @@ package ru.ufalinux.tasp;
 import java.util.Vector;
 
 import ru.ufalinux.tasp.dataworks.Data;
-import ru.ufalinux.tasp.dataworks.Driverstate;
+import ru.ufalinux.tasp.dataworks.Driverstops;
 import ru.ufalinux.tasp.dataworks.MainConfig;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,33 +17,33 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
-public class StatesListActivity extends Activity {
-
-	private StatesListAdapter statesAdapter;
+public class StopsListActivity extends Activity {
+	
+	private StopsListAdapter stopsAdapter;
 //	UpdateThread updThread;
-	ListView statesList;
+	ListView stopsList;
 	Dialog ordertimes;
 	ProgressDialog progDialog;
 //	ProgressThread progThread;
 	protected long selectedId = 0;
 
-	StatesListActivity act=this;
+	StopsListActivity act=this;
 	
 	public void onResume() {
 		super.onResume();
-		statesAdapter.setData(new Vector<Driverstate>(Data.driverstates));
-		statesAdapter.notifyDataSetChanged();
+		stopsAdapter.setData(new Vector<Driverstops>(Data.driverstops));
+		stopsAdapter.notifyDataSetChanged();
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(Data.TAG, "onCreate StatesListActiviti");
+		Log.d(Data.TAG, "onCreate StopListActiviti");
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.states_layout);
-		statesList = (ListView) findViewById(R.id.stateListView);
-		statesAdapter = new StatesListAdapter(this);
-		statesList.setAdapter(statesAdapter);
-		statesAdapter.notifyDataSetChanged();
-		statesList.setOnItemLongClickListener(new OnItemLongClickListener() {
+		setContentView(R.layout.stops_layout);
+		stopsList = (ListView) findViewById(R.id.stopsListView);
+		stopsAdapter = new StopsListAdapter(this);
+		stopsList.setAdapter(stopsAdapter);
+		stopsAdapter.notifyDataSetChanged();
+		stopsList.setOnItemLongClickListener(new OnItemLongClickListener() {
 			
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -56,7 +56,7 @@ public class StatesListActivity extends Activity {
 						items[1]="Отмена";
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getParent());
-						builder.setTitle("Статус:");
+						builder.setTitle("Стоянка:");
 
 						builder.setItems(items,
 								new DialogInterface.OnClickListener() {
@@ -65,7 +65,7 @@ public class StatesListActivity extends Activity {
 										if (item == 1)
 											dialog.cancel();
 										else {
-											Data.requestStatus((int)selectedId);
+											Data.requestStop((int)selectedId);
 											dialog.dismiss();
 										}
 									}

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
     <string name="hello">Hello World, TestActivity!</string>
     <string name="app_name">ТАСП-07</string>
     <string name="exitButonText">Выход</string>
@@ -21,4 +22,10 @@
     <string name="totalMinutesLabelStaticText">Общий простой</string>
     <string name="totalCostLabelStaticText">р.</string>
     <string name="dispJabberAccount">disp</string>
+    <string name="txtdyndns">.dyndns.org</string>
+    <string name="txtand">and</string>
+    
+    <string name="txtSTATUS">Статус</string>
+    <string name="txtSTOPS">Стоянки</string>
+    
 </resources>

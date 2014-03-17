@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      android:versionCode="5"
-      android:versionName="1.0" package="ru.ufalinux.tasp" android:installLocation="auto"
+      android:versionCode="8"
+      android:versionName="1.0" 
+      package="ru.ufalinux.tasp" 
+      android:installLocation="auto"
       >
       
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
@@ -9,7 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
+    <application android:icon="@drawable/icon" 
+                 android:label="@string/app_name" 
+                 android:debuggable="false" >
         <activity android:label="@string/app_name" android:name=".MainActivity" android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +29,7 @@
         <activity android:name="OrderInfoActivity"></activity>
         <activity android:name="TaxometerActivity"></activity>
         <activity android:name="StatesListActivity"></activity>
-
+        <activity android:name="StopsListActivity"></activity>
+        
     </application>
 </manifest>

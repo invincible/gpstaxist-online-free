@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 public class MainActivity extends TabActivity {
 	/** Called when the activity is first created. */
@@ -34,6 +36,8 @@ public class MainActivity extends TabActivity {
 	static final int ALERT_DIALOG = 0;
 	TabHost thost;
 	MainActivity act;
+	
+	
 
 	public void onResume() {
 		super.onResume();
@@ -53,6 +57,7 @@ public class MainActivity extends TabActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		act = this;
 		setContentView(R.layout.main);
+		Log.d(Data.TAG, "=========== ЗАПУСК ПРОГРАММЫ ===============");
 
 		SharedPreferences prefs = PreferenceManager
 				.getDefaultSharedPreferences(this);
@@ -81,27 +86,31 @@ public class MainActivity extends TabActivity {
 
 			// View indicator1 = createTabView(thost.getContext(), "Смена");
 			intent = new Intent().setClass(this, LoginActivity.class);
-			spec = thost.newTabSpec("login").setIndicator("Смена")
-					.setContent(intent);
+			spec = thost.newTabSpec("login").setIndicator("Смена").setContent(intent);
 			thost.addTab(spec);
-
 			// indicator1 = createTabView(thost.getContext(), "Заказы");
 			intent = new Intent().setClass(this, OrdersActivity.class);
-			spec = thost.newTabSpec("orders").setIndicator("Заказы")
-					.setContent(intent);
-			thost.addTab(spec);
-			// indicator1 = createTabView(thost.getContext(), "Таксометр");
-			intent = new Intent().setClass(this, TaxometerActivity.class);
-			spec = thost.newTabSpec("taxometer").setIndicator("Таксометр")
-					.setContent(intent);
+			spec = thost.newTabSpec("orders").setIndicator("Заказы").setContent(intent);
 			thost.addTab(spec);
 			
+			// indicator1 = createTabView(thost.getContext(), "Таксометр");
+			intent = new Intent().setClass(this, TaxometerActivity.class);
+			spec = thost.newTabSpec("taxometer").setIndicator("Таксометр").setContent(intent);
+			thost.addTab(spec);
+
 			intent = new Intent().setClass(this, StatesListActivity.class);
-			spec = thost.newTabSpec("taxometer").setIndicator("Статусы")
-					.setContent(intent);
+			//spec = thost.newTabSpec("taxometer").setIndicator("Статусы").setContent(intent);
+			spec = thost.newTabSpec("states").setIndicator("Статусы").setContent(intent);
+			thost.addTab(spec);
+			
+			intent = new Intent().setClass(this, StopsListActivity.class);
+			spec = thost.newTabSpec("stops").setIndicator("Стоянки").setContent(intent);
+			Log.d(Data.TAG, "Добавлено меню стоянки 1");
+//			spec = thost.newTabSpec("stops").setIndicator("Стоянки").setContent(intent);
 			thost.addTab(spec);
 			
 			thost.getTabWidget().setPadding(0, 0, 0, 0);
+			
 			// thost.getTabWidget().getChildAt(0).getLayoutParams().height = 20;
 			// thost.getTabWidget().getChildAt(1).getLayoutParams().height = 20;
 			// thost.getTabWidget().getChildAt(2).getLayoutParams().height = 20;
@@ -134,6 +143,13 @@ public class MainActivity extends TabActivity {
 			return true;
 		case R.id.states_menu_item:
 			thost.setCurrentTab(3);
+			return true;
+		case R.id.stops_menu_item:
+			Log.d(Data.TAG, "Выбрано меню Стоянки");
+			//Toast.makeText(this, "Стоянки 11", Toast.LENGTH_LONG).show();
+			thost.setCurrentTabByTag("stops");
+			//thost.setCurrentTab(4);
+			Log.d(Data.TAG, "Стоянки 12");
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -181,6 +197,13 @@ public class MainActivity extends TabActivity {
 			intent = new Intent().setClass(this, StatesListActivity.class);
 			spec = thost.newTabSpec("taxometer").setIndicator("Статусы")
 					.setContent(intent);
+			thost.addTab(spec);
+			
+			intent = new Intent().setClass(this, StopsListActivity.class);
+			spec = thost.newTabSpec("stops").setIndicator("Стоянки")
+					.setContent(intent);
+			Log.d(Data.TAG, "Добавлено меню стоянки 2");
+
 			thost.addTab(spec);
 			
 			thost.getTabWidget().setPadding(0, 0, 0, 0);
