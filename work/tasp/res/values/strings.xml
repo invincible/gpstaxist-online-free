@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="hello">Hello World, TestActivity!</string>
+    <string name="app_name">ТАСП-07</string>
+    <string name="exitButonText">Выход</string>
+    <string name="carLabelText">Машина</string>
+    <string name="loginLabelText">Позывной</string>
+    <string name="passwordLabelText">Пароль</string>
+    <string name="loginButtonText">Начать смену</string>
+    <string name="loginMessageTextLabel"></string>
+    <string name="jabberServerLabelText">Сервер</string>
+    <string name="jabberUserLabelText">Пользователь</string>
+    <string name="jabberPasswordLabelText">Пароль</string>
+    <string name="jabberDispLabelText">Дисп.</string>
+    <string name="orderOnPlaceButtonText">На месте</string>
+    <string name="callLabelText">Подача: </string>
+    <string name="minimalLabelText">Мин. стоимость: </string>
+    <string name="kmLabelText">Километр: </string>
+    <string name="minuteLabelText">Простой:</string>
+    <string name="totalKmLabelStaticText">Километраж</string>
+    <string name="totalMinutesLabelStaticText">Общий простой</string>
+    <string name="totalCostLabelStaticText">р.</string>
+    <string name="dispJabberAccount">disp</string>
+    <string name="txtdyndns">.dyndns.org</string>
+    <string name="txtand">and</string>
+    
+    <string name="txtSTATUS">Статус</string>
+    <string name="txtSTOPS">Стоянки</string>
+    
+</resources>
