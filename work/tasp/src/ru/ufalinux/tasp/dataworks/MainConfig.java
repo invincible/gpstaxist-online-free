@@ -9,6 +9,8 @@ import org.ini4j.Profile.Section;
 
 import android.content.SharedPreferences;
 
+// 25
+
 public class MainConfig {
 	public static boolean parsed=false;
 	public static JabberConfig jabber;
@@ -24,6 +26,8 @@ public class MainConfig {
 	public static float orderDistAlert=(float) 0.0;
 	public static boolean ordInfoOnWait=true;
 	public static boolean floorSum=true;
+//	public static boolean floorSum=false;
+	public static int roundSumm = 1; // огругление, ежели что
 	public static Vector <Call>calls;
 	
 	public MainConfig(SharedPreferences prefs){
@@ -74,6 +78,8 @@ public class MainConfig {
 					orderDistAlert=Float.parseFloat(settings.get("OrderDistAlert"));
 				if(settings.containsKey("OrdInfoOnWait"))
 					ordInfoOnWait=getBool(settings.get("OrdInfoOnWait"));
+				if(settings.containsKey("RoundSumm"))
+					roundSumm=Integer.parseInt(settings.get("RoundSumm"));
 			}
 			Section tariffsSection=ini.get("TARIFF");
 			if(tariffsSection!=null){

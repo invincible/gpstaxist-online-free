@@ -218,7 +218,8 @@ public class TaxometerActivity extends Activity {
 			totalMinutesLabel.setText(fmt.format(min) + " мин");
 			float total = Data.totalCost;
 			if (MainConfig.floorSum) {
-				total = (float) (Math.floor(Data.totalCost / 5) * 5);
+			//	 total = (float) (Math.floor(Data.totalCost / 5) * 5);  
+				 total = (float) (Math.floor(Data.totalCost / MainConfig.roundSumm) * MainConfig.roundSumm); 
 			}
 			totalCostLabel.setText(fmt2.format(total));
 		} catch (Exception e) {
