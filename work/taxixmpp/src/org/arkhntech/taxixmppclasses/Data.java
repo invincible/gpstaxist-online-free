@@ -31,7 +31,8 @@ public class Data extends TimerTask {
 		R_CALL, A_CALL, A_COORDS, A_ERR, R_CLOSE, 
 		R_ALARM, R_PARKINGID, R_NOALARM, R_CONFIG, R_PARKING, R_SETTINGS, A_DRVSTOP
 
-	}
+	} //arkhnchul@jabber.ru
+
 
 	XMPPConnection connection;
 	HashMap<String, DriverInfo> accounts = new HashMap<String, DriverInfo>();

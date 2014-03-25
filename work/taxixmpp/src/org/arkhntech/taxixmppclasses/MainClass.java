@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Vector;
 
+import javax.net.ssl.SSLSocketFactory;
+
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketCollector;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
+import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
@@ -25,14 +28,19 @@ public class MainClass {
 			throws XMPPException {
 		ConnectionConfiguration config = new ConnectionConfiguration(host,
 				Integer.parseInt(port), host);
+//		config.setSelfSignedCertificateEnabled(true);
 		config.setSelfSignedCertificateEnabled(true);
+		
 //		SASLAuthentication.supportSASLMechanism("PLAIN",0);
+//		SASLAuthentication.supportSASLMechanism("PLAIN",0);
+//		config.setSASLAuthenticationEnabled(false);
 //		config.setSASLAuthenticationEnabled(false);
 
 //		config.setSecurityMode(ConnectionConfiguration.SecurityMode.enabled);
-//		config.setSocketFactory(SSLSocketFactory.getDefault());
-		connection = new XMPPConnection(config);
+//      config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+		//config.setSocketFactory(SSLSocketFactory.getDefault());
 
+		connection = new XMPPConnection(config);
 		connection.connect();
 		System.out.println(connection);
 		System.out.println(userName+" "+password);
