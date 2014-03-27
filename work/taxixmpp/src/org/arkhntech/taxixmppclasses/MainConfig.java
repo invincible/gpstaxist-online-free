@@ -65,7 +65,7 @@ public class MainConfig {
 	protected boolean compute_stops = false;
 	protected Integer freerun_delay = 0;
 	protected String freerun_denied_prefix = "";
-	protected Integer minimal_balance = 0;
+	protected Long minimal_balance = (long) 0;
 	protected Integer ttl = 1000;
 	protected Integer orders_coords_count = 10;
 	protected boolean zone_stops = false;
@@ -132,11 +132,9 @@ public class MainConfig {
 					"0"));
 			freerun_delay = Integer.parseInt(global.get("freerun_delay", "0"));
 			freerun_denied_prefix = global.get("freerun_denied_prefix", "");
-			minimal_balance = Integer.parseInt(global.get("minimal_balance",
-					"0"));
+			minimal_balance = Long.parseLong(global.get("minimal_balance","0"));
 			ttl = Integer.parseInt(global.get("ttl", "1000"));
-			balance_sign = Integer
-					.parseInt(global.get("balance_sign", "99999"));
+			balance_sign = Integer.parseInt(global.get("balance_sign", "99999"));
 			orders_coords_count = Integer.parseInt(global.get(
 					"orders_coords_count", "10"));
 			order_vendor = global.get("order_vendor", null);

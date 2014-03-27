@@ -274,7 +274,7 @@ public class Data extends TimerTask {
 			}
 			System.out.println(cfg.minimal_balance);
 			if (cfg.minimal_balance > 0) {
-				if (Integer.parseInt(comm.sign) < cfg.balance_sign) {
+				if (Long.parseLong(comm.sign) < cfg.balance_sign) {
 					mysql.prepare("select balance from refdrivers where sign=?");
 					mysql.setString(1, comm.sign);
 					if (mysql.queryPrep()) {
@@ -489,9 +489,9 @@ public class Data extends TimerTask {
 				if ((paysum > 0) && (cfg.send_cost))
 					curr.computedCost = true;
 				trackinfo.add(curr);
-				int numericSign = 0;
+				Long numericSign = (long) 0;
 				try {
-					numericSign = Integer.parseInt(comm.sign);
+					numericSign = Long.parseLong(comm.sign);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -926,7 +926,7 @@ public class Data extends TimerTask {
 		try {
 			// получаем текущее состояние водителя, и потом рисуем * напротив его состояния
 			mysql.prepare("select drvstate from drivershift where endtime is NULL and sign=? limit 1;");
-			mysql.setLong(1, comm.sign);
+			mysql.setString(1, comm.sign);
 			mysql.queryPrep();mysql.next();
 			
 			Integer stateid = mysql.getInt("drvstate");
@@ -975,9 +975,9 @@ public class Data extends TimerTask {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					int signInt = 0;
+					Long signInt = (long) 0;
 					try {
-						signInt = Integer.parseInt(comm.sign);
+						signInt = Long.parseLong(comm.sign);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1809,29 +1809,43 @@ public class Data extends TimerTask {
 		return true;
 	}
 
-	public String processADrvstop(Command comm) { // обработка команды
-													// постановки на стоянку
-		try { // # запрашиваем количество на стоянке и ставим последним
-			mysql.prepare("select count(*) as carscount from drivershift where endtime is NULL and stopid=? limit 1;");
-			mysql.setLong(1, comm.body.get("id"));
-			mysql.queryPrep();
-			mysql.next();
-			Integer carscount = mysql.getInt("carscount");
-			System.out.println("CARSCOUNT="+carscount.toString());
-			carscount=carscount+1;
-			mysql.prepare("update drivershift set stopid=?, stoporder=? where endtime is NULL and sign=?;");
-			mysql.setLong(1, comm.body.get("id"));
-			mysql.setLong(2, carscount);
-			mysql.setString(3, comm.sign);
-			mysql.executePrep();
-
-			mysql.prepare("select name from refstops where num=?;");
-			mysql.setLong(1, comm.body.get("id"));
+	public String processADrvstop(Command comm) { // обработка команды постановки на стоянку
+													
+		try {  // проверка , на какой стоянке водитель
+			mysql.prepare("select stopid from drivershift where endtime is NULL and sign=? limit 1;");
+			mysql.setString(1, comm.sign);
 			mysql.queryPrep();mysql.next();
-			String stopname = mysql.getString("name");
-			String out = "Вы отмечены на стоянке " + stopname +". Ваша позиция на стоянке "+carscount.toString()+".";
-			return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
+			if (mysql.getString("stopid").equals(comm.body.get("id"))) 
+			{
+				String out = "Вы УЖЕ отмечены на этой стоянке.";
+				return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
+			} 
+				else 
+			{
+					// # запрашиваем количество на стоянке и ставим последним
+					mysql.prepare("select count(*) as carscount from drivershift where endtime is NULL and stopid=? limit 1;");
+					mysql.setLong(1, comm.body.get("id"));
+					mysql.queryPrep();
+					mysql.next();
+					Integer carscount = mysql.getInt("carscount");
+					System.out.println("CARSCOUNT="+carscount.toString());
+					carscount=carscount+1;
+					mysql.prepare("update drivershift set stopid=?, stoporder=? where endtime is NULL and sign=?;");
+			//		mysql.prepare("update drivershift set stopid=?, stoporder=? where endtime is NULL and sign=? and stopid<>?;");
+					mysql.setLong(1, comm.body.get("id"));
+					mysql.setLong(2, carscount);
+					mysql.setString(3, comm.sign);
+			//		mysql.setLong(4, comm.body.get("id"));
+					mysql.executePrep();
 
+					mysql.prepare("select name from refstops where num=?;");
+					mysql.setLong(1, comm.body.get("id"));
+					mysql.queryPrep();mysql.next();
+					String stopname = mysql.getString("name");
+					String out = "Вы отмечены на стоянке " + stopname +". Ваша позиция на стоянке "+carscount.toString()+".";
+					return "0\n0\nA_OK$0\n0\nA_INFO\ninfo:" + out;
+
+			}
 		//return "0\n0\nA_OK";
 
 		} catch (Exception e) {
