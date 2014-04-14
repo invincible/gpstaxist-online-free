@@ -8,6 +8,7 @@
           android:id="@+id/login_menu_item"
           android:icon="@drawable/car">
     </item>
+    
     <item android:visible="true" 
         android:title="Список заказов" 
         android:enabled="true" 
@@ -24,6 +25,30 @@
           android:id="@+id/taxometer_menu_item"
           >
     </item>
+    <item android:title="ЗВОНКИ" 
+          android:visible="true" 
+          android:enabled="true"
+          android:icon="@drawable/call" android:titleCondensed="ЗВОНКИ">
+          <menu>
+  		    <item android:title="Звонок клиенту" 
+          android:id="@+id/client_menu_item" 
+          android:titleCondensed="Звонок клиенту" 
+          android:visible="true" android:enabled="true" 
+          android:icon="@drawable/call_outgoing">
+    		</item>
+    		<item android:title="Диспетчер" 
+          android:id="@+id/disp_menu_item" 
+          android:titleCondensed="Диспетчер" 
+          android:visible="true" android:enabled="true"
+          android:icon="@drawable/call">
+    		</item>
+    		</menu>
+        
+        
+    </item>
+    <item android:title="СОСТОЯНИЕ" android:visible="true"  android:enabled="true"   android:titleCondensed="СОСТОЯНИЕ"
+        android:icon="@drawable/user_awake">
+        <menu>
     <item android:title="Статусы" 
           android:id="@+id/states_menu_item" 
           android:titleCondensed="Статусы" 
@@ -37,6 +62,9 @@
           android:visible="true" 
           android:enabled="true"
           android:icon="@drawable/home">
+    </item>
+            
+        </menu>
     </item>
     
 </menu>

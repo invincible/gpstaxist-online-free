@@ -1,6 +1,7 @@
 package ru.ufalinux.tasp;
 
 import ru.ufalinux.tasp.dataworks.Data;
+import ru.ufalinux.tasp.dataworks.JabberConfig;
 import ru.ufalinux.tasp.dataworks.MainConfig;
 import ru.ufalinux.tasp.dataworks.ProcessingService;
 import ru.ufalinux.tasp.dataworks.Types;
@@ -15,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -127,12 +129,14 @@ public class MainActivity extends TabActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
+		//menu.
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		TabHost thost = getTabHost();
+		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.login_menu_item:
 			thost.setCurrentTab(0);
@@ -152,6 +156,18 @@ public class MainActivity extends TabActivity {
 			thost.setCurrentTabByTag("stops");
 			//thost.setCurrentTab(4);
 			Log.d(Data.TAG, "Стоянки 12");
+			return true;
+		case R.id.disp_menu_item:
+			if (MainConfig.jabber.server.equals("taxidil.dyndns.org")) // для такси дилижанс
+			{String tel = Data.dispdiliphones[Data.dispcurrphone];	Data.dispcurrphone = Data.dispcurrphone+1;
+				if (Data.dispcurrphone==Data.dispdiliphones.length) { Data.dispcurrphone=0;};
+				intent = new Intent(Intent.ACTION_DIAL); 				// звоним диспетчеру
+				intent.setData(Uri.parse("tel:"+tel.toString()));	startActivity(intent);}
+			//MainConfig.jabber.
+			return true;
+		case R.id.client_menu_item:
+			intent = new Intent(Intent.ACTION_DIAL); 				// звоним клиенту
+			intent.setData(Uri.parse("tel:"+Data.currOrder.clientPhone.toString()));	startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

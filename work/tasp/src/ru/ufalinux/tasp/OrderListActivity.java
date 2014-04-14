@@ -12,6 +12,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -51,6 +52,36 @@ public class OrderListActivity extends Activity {
 		orderList.setAdapter(ordersAdapter);
 		ordersAdapter.notifyDataSetChanged();
 		orderList.setOnItemLongClickListener(new OnItemLongClickListener() {
+		
+			private void startMAPpath(Order currOrderZ) {
+				// TODO Auto-generated method stub
+				String SS ="?saddr="+
+			    currOrderZ.townfrom+" "+
+			    currOrderZ.streetfrom+" "+
+			    currOrderZ.housefrom+"&daddr="+
+			    currOrderZ.townto+ " "+
+			    currOrderZ.streetto+" "+
+			    currOrderZ.houseto;
+				Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+							 Uri.parse("http://maps.google.com/maps"+SS));
+				startActivity(intent); 
+				
+			}
+
+			private void startMAPpointA(Order currOrderZ) {
+				// TODO Auto-generated method stub
+						String SS =""+
+					    currOrderZ.townfrom+" "+
+					    currOrderZ.streetfrom+" "+
+					    currOrderZ.housefrom;//+"&daddr="+
+					    //currOrderZ.townto+ " "+
+					    //currOrderZ.streetto+" "+
+					    //currOrderZ.houseto;
+						Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+									 Uri.parse("geo:0,0?q="+SS));
+						startActivity(intent); 
+				
+			}
 			
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -58,7 +89,7 @@ public class OrderListActivity extends Activity {
 				try {
 					if (Data.orders.get((int) position).time.equals("99-99")) {
 						System.out.println("ordertimes:" + MainConfig.orderTimes.size());
-						final CharSequence[] items = new String[4];
+						final CharSequence[] items = new String[6];
 						items[0]="5 мин";
 						items[1]="10 мин";
 						items[2]="15 мин";
@@ -66,6 +97,8 @@ public class OrderListActivity extends Activity {
 //							items[i] = MainConfig.orderTimes.get(i) + " мин.";
 //						}
 						items[3] = "Отмена";
+						items[4] = "Показать на карте маршрут";
+						items[5] = "Показать на карте пункт A";
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getParent());
 						builder.setTitle("Взять заказ:");
@@ -74,6 +107,25 @@ public class OrderListActivity extends Activity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int item) {
+										if (item == 5) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+												    startMAPpointA(currOrderZ);
+													break;
+													}
+										
+										} else
+										if (item == 4) 
+										{	for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	Order currOrderZ = Data.orders.get(i);
+												    startMAPpath(currOrderZ);
+													break;}
+																				}
+										else
 										if (item == 3)
 											dialog.cancel();
 										else {
@@ -92,11 +144,13 @@ public class OrderListActivity extends Activity {
 											dialog.dismiss();
 										}
 									}
+
+									
 								});
 						ordertimes = builder.create();
 						ordertimes.show();
 					} else {
-						final CharSequence[] items2 = new String[2];
+						final CharSequence[] items2 = new String[4];
 						String time = "";
 						for (int i = 0; i < Data.orders.size(); i++)
 							if (Data.orders.get(i).id == selectedId) {
@@ -105,6 +159,8 @@ public class OrderListActivity extends Activity {
 							}
 						items2[0] = "к " + time;
 						items2[1] = "Отмена";
+						items2[2] = "Показать на карте маршрут";
+						items2[3] = "Показать на карте пункт A";
 						AlertDialog.Builder builder2 = new AlertDialog.Builder(
 								getParent());
 						builder2.setTitle("Взять заказ:");
@@ -118,6 +174,25 @@ public class OrderListActivity extends Activity {
 												time = Data.orders.get(i).time;
 												break;
 											}
+										if (item == 3) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+												    startMAPpointA(currOrderZ);
+													break;
+													}
+										
+										} else
+										if (item == 2) 
+										{	for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	Order currOrderZ = Data.orders.get(i);
+												    startMAPpath(currOrderZ);
+													break;}
+																				}
+										else
 										if (item == 1)
 											dialog.cancel();
 										else {

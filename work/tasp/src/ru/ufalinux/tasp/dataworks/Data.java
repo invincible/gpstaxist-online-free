@@ -1,5 +1,6 @@
 package ru.ufalinux.tasp.dataworks;
 
+import java.net.ContentHandler;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +8,7 @@ import java.util.Vector;
 
 import ru.ufalinux.tasp.MainActivity;
 import ru.ufalinux.tasp.jabberworks.Command;
+import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 
 public class Data {
 
@@ -37,6 +40,8 @@ public class Data {
 	public static Vector<DrivePiece> driveInfo;
 	public static DrivePiece currPiece;
 	public static String alert = "";
+	//public static String clientPhone = ""; // телефон клиента текущего заказа 
+	//public static String dispPhone = "";   // телефон диспетчера
 	public static LocationManager locMan;
 	public static MainActivity mainAct;
 	public static NotificationManager nManager;
@@ -50,6 +55,8 @@ public class Data {
 	public static Vector<Driverstops> driverstops;
 	public static boolean ordersChanged=false;
 	
+	public static String[] dispdiliphones = {"+79173487655","+79177959377","+79177504337","+79191577377"}; // телефоны диспетчера дилижанс
+	public static int dispcurrphone =  0; // какой номер используем, перебираем по очереди 
 	
 	public Data() {
 		incoming = new FIFO();
@@ -175,6 +182,32 @@ public class Data {
 			}
 	}
 
+	public static void requestOrderMap(Long id, String info) {
+		
+		//String SS = Data.orders.get((int) selectedId).addressfrom + Data.orders.get((int) selectedId).addressto;
+	//										Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+	//											 Uri.parse("http://maps.google.com/maps?saddr="+SS));
+	//											startActivity(intent);
+		
+	//	Command comm = new Command();
+	//	comm.type = "A_ORDER";
+	//	comm.body.put("id", id.toString());
+	//	comm.body.put("state", "CONFIRM");
+	//	comm.body.put("info", info);
+	//	waiting = Types.A_ORDER_CONFIRM;
+	//	outcoming.push(comm);
+		for (int i = 0; i < orders.size(); i++) 
+		 if (orders.get(i).id.equals(id)) 
+		    {	currOrder = orders.get(i);					
+		    String SS = "?saddr=Уфа "+currOrder.addressfrom+"&daddr=Уфа "+currOrder.addressto;
+			Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+						 Uri.parse("http://maps.google.com/maps"+SS));
+	//		startActivity(intent); 
+			break;}
+			
+	}
+
+	
 //	public static void requestStates(){
 //		Command comm=new Command();
 //		comm.type="R_DRVSTATEID";

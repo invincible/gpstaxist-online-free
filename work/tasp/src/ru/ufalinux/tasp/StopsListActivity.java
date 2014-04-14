@@ -36,7 +36,7 @@ public class StopsListActivity extends Activity {
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(Data.TAG, "onCreate StopListActiviti");
+		//Log.d(Data.TAG, "onCreate StopListActiviti");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stops_layout);
 		stopsList = (ListView) findViewById(R.id.stopsListView);

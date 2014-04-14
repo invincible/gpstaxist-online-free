@@ -51,7 +51,7 @@ public class StatesListAdapter extends BaseAdapter{
 
 	public View getView(int pos, View convertView, ViewGroup parent) {
 		View view = null;
-		Log.d(Data.TAG, "Get vIew");
+		//Log.d(Data.TAG, "Get vIew");
 		// Проверяем существуествование объекта для текущеё позиции
 		if (convertView != null) {
 			// Если существует то, берем текущий объект
@@ -79,7 +79,7 @@ public class StatesListAdapter extends BaseAdapter{
 	private void bindView(int pos, View view) {
 		// Получаем TextView из родительского View по ID для изменения
 		// параметров объекта
-		Log.d(Data.TAG, "Bind vIew");
+		//Log.d(Data.TAG, "Bind vIew");
 		TextView labelView = (TextView) view
 				.findViewById(R.id.orderListLabelMain);
 		Driverstate curr = states.get(pos);

@@ -18,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import org.ini4j.Config;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
@@ -1170,7 +1171,7 @@ public class Data extends TimerTask {
 			boolean hasOrder = false;
 			mysql.prepare("select orders.route as route,orders.meet as meet,hour(orders.pretime)as hr,minute(orders.pretime) as mn,"
 					+ "orders.preorder,orders.orderstate as orderstate,orders.num,orders.street,orders.house,orders.porch,"
-					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena from orders,drivershift where "
+					+ "orders.addressfrom,orders.streetto,orders.houseto,orders.addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena,phone,town,townto  from orders,drivershift where "
 					+ " orders.drivershift=drivershift.num and drivershift.sign=? ");
 			// по просьбе казани /
 			// mysql.prepare("call get_order1(?)");
@@ -1182,7 +1183,7 @@ public class Data extends TimerTask {
 			String commstr = "";
 			if (!hasOrder && !cfg.only_disp) {
 				commstr = "select route as route,meet as meet,hour(pretime)as hr,minute(pretime) as mn,preorder,num,street,"
-						+ "house,porch,addressfrom,streetto,houseto,addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena from orders where "
+						+ "house,porch,addressfrom,streetto,houseto,addressto,hour(ordertime)as ohr,minute(ordertime) as omn,round(paysum) as cena,phone,town,townto from orders where "
 						+ " orderstate=0 and (preorder=0 or ((pretime-interval "
 						+ cfg.pretime
 						+ " minute) < now()))and not (street is null) and length(street)>3 and ordertime< (now()-interval "
@@ -1267,17 +1268,25 @@ public class Data extends TimerTask {
 						+ mysql.getString("street") + ", д " + home + ", пд "
 						+ mysql.getString("porch") + ", "
 						+ mysql.getString("addressfrom") + ", "
-						+ mysql.getString("meet") + " " + mess + " ЦЕНА "
-						+ mysql.getString("cena");
-
+						+ mysql.getString("meet") + " " + mess; //+ " ЦЕНА "
+						// + mysql.getString("cena");
+				if(cfg.sendCENA)  {	out +=   " ЦЕНА "+ mysql.getString("cena");  }
 				if (hasOrder) {
 					out += " Закреплен за " + comm.sign;
 				}
 				out += "|" + "xcoord:" + yfrom + "|ycoord:" + xfrom + "|"
-						+ "address:ул " + mysql.getString("streetto") + ", д "
+						+ "address2:ул " + mysql.getString("streetto") + ", д "
 						+ mysql.getString("houseto") + ", "
 						+ mysql.getString("addressto") + "|" + "xcoord:"
-						+ yfrom + "|ycoord:" + xfrom + "|" + "time:" + pretime;
+						+ yfrom + "|ycoord:" + xfrom + "|" + "time:" + pretime+ "|"
+						+ "phone:"+     mysql.getString("phone")+"|"
+						+ "street2map:"   +mysql.getString("street")+"|"
+						+ "house2map:"    +mysql.getString("house")+"|"
+						+ "streetto2map:" +mysql.getString("streetto")+"|"
+						+ "houseto2map:"  +mysql.getString("houseto")+"|"
+						+ "town2map:"     +mysql.getString("town")+"|"
+						+ "townto2map:"   +mysql.getString("townto")
+						;
 
 				out += "$";
 				if (hasOrder && cfg.only_disp)

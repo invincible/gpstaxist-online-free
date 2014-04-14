@@ -98,6 +98,15 @@ public class ProcessingThread implements Runnable {
 		curr.time = comm.body.get("time");
 		curr.time = curr.time.replace("\n", "");
 		curr.addressto = comm.body.get("address2");
+		//curr.clientPhone = comm.body.get("phone"); // получаем номер телефона клиента
+		curr.clientPhone = comm.body.get("phone");// получаем номер телефона клиента
+		curr.townfrom =    comm.body.get("town2map");// получаем город откуда
+		curr.streetfrom =  comm.body.get("street2map");// получаем улицу откуда
+		curr.housefrom   = comm.body.get("house2map");// получаем номер дома откуда
+		curr.townto =      comm.body.get("townto2map");// получаем город куда
+		curr.streetto =    comm.body.get("streetto2map");// получаем номер телефона клиента
+		curr.houseto =     comm.body.get("houseto2map");// получаем номер телефона клиента
+		Log.d(Data.TAG, "clientPhone = "+curr.clientPhone.toString());
 		System.out.println(curr.addressfrom);
 		if (Data.waiting.equals(Types.R_FREERUN)){
 			if(!Data.orders.isEmpty()&&Data.orders.get(0).id==-1l){
@@ -224,18 +233,18 @@ public class ProcessingThread implements Runnable {
 		// comm.body.get("state"+i+1)));
 		// System.err.println(comm.body.get("id"+i));
 		// }
-		Log.d(Data.TAG, "==== A_DRVSTATEID ===== "+ comm.body.toString());
+		//Log.d(Data.TAG, "==== A_DRVSTATEID ===== "+ comm.body.toString());
 		Data.driverstates.clear();//чистим список
 		
 		for (String num : comm.body.keySet()) {
 			System.err.println("num:" + num);
-			Log.d(Data.TAG,"A_DRVSTATEID" + num.toString()+ comm.body.get(num));
+			//Log.d(Data.TAG,"A_DRVSTATEID" + num.toString()+ comm.body.get(num));
 			Driverstate curr = new Driverstate(Integer.parseInt(num),
 					comm.body.get(num));
 			Data.driverstates.add(curr);
 		}
 
-		Log.d(Data.TAG, "A_DRVSTATEID");
+		//Log.d(Data.TAG, "A_DRVSTATEID");
 		//for (String num : comm.body.keySet()) {
 		//	System.err.println("num:" + num);
 		//	Driverstops curr = new Driverstops(Integer.parseInt(num),
@@ -251,7 +260,7 @@ public class ProcessingThread implements Runnable {
 	public void processA_DRVSTOPSID(Command comm) {
 		
 
-		Log.d(Data.TAG, "==== A_DRVSTOPSID ===== "+ comm.body.toString());
+		//Log.d(Data.TAG, "==== A_DRVSTOPSID ===== "+ comm.body.toString());
 		Data.driverstops.clear(); //чистим список
 	
 		for (String num : comm.body.keySet()) {

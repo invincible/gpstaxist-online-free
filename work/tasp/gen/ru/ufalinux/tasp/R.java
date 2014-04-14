@@ -12,21 +12,25 @@ public final class R {
     }
     public static final class drawable {
         public static final int alert_icon=0x7f020000;
-        public static final int car=0x7f020001;
-        public static final int checkmark=0x7f020002;
-        public static final int close=0x7f020003;
-        public static final int home=0x7f020004;
-        public static final int icon=0x7f020005;
-        public static final int icon_info=0x7f020006;
-        public static final int investor=0x7f020007;
-        public static final int list=0x7f020008;
-        public static final int user_awake=0x7f020009;
+        public static final int call=0x7f020001;
+        public static final int call_outgoing=0x7f020002;
+        public static final int car=0x7f020003;
+        public static final int checkmark=0x7f020004;
+        public static final int close=0x7f020005;
+        public static final int home=0x7f020006;
+        public static final int icon=0x7f020007;
+        public static final int icon_info=0x7f020008;
+        public static final int investor=0x7f020009;
+        public static final int list=0x7f02000a;
+        public static final int user_awake=0x7f02000b;
     }
     public static final class id {
         public static final int callLabel=0x7f06001f;
         public static final int callPriceLabel=0x7f060020;
         public static final int carField=0x7f060010;
         public static final int carLabel=0x7f06000f;
+        public static final int client_menu_item=0x7f060039;
+        public static final int disp_menu_item=0x7f06003a;
         public static final int exitButton=0x7f060013;
         public static final int firmNameLabel=0x7f06001d;
         public static final int jabberDispField=0x7f06000b;
@@ -59,9 +63,9 @@ public final class R {
         public static final int showOrdersButton=0x7f060035;
         public static final int showTaxometerButton=0x7f060019;
         public static final int stateListView=0x7f06001b;
-        public static final int states_menu_item=0x7f060039;
+        public static final int states_menu_item=0x7f06003b;
         public static final int stopsListView=0x7f06001c;
-        public static final int stops_menu_item=0x7f06003a;
+        public static final int stops_menu_item=0x7f06003c;
         public static final int tableRow1=0x7f060003;
         public static final int tableRow10=0x7f060030;
         public static final int tableRow11=0x7f060031;

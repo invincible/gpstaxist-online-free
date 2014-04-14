@@ -79,6 +79,7 @@ public class MainConfig {
 	protected int force_tariff=0;
 	protected boolean ord_info_on_wait=false; 
 	protected boolean address_stops=false;
+	protected boolean sendCENA=false; // добавлятьли цена в список заказов
 	protected String config_string="";
 	protected boolean set_cost=false;
 	protected int border_endtask=10;
@@ -87,12 +88,14 @@ public class MainConfig {
 	protected int channel=0; 
 	
 	
+	
 	public boolean read(File inifile) {
 		try {
 			Ini ini = new Ini(inifile);
 			Preferences prefs = new IniPreferences(ini);
 
 			Preferences global = prefs.node("global");
+			sendCENA = Boolean.parseBoolean(global.get("sendCENA", "false"));
 			callAsMinimal = Boolean.parseBoolean(global.get("call_as_minimal",
 					"false"));
 			speedLimit = Boolean.parseBoolean(global

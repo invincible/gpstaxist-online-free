@@ -36,7 +36,7 @@ public class StatesListActivity extends Activity {
 	}
 
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d(Data.TAG, "onCreate StatesListActiviti");
+		//Log.d(Data.TAG, "onCreate StatesListActiviti");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.states_layout);
 		statesList = (ListView) findViewById(R.id.stateListView);

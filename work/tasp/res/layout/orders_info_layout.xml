@@ -10,18 +10,32 @@
 		android:id="@+id/orderInfoText" android:layout_height="fill_parent"
 		android:gravity="top" android:textSize="30sp" android:layout_alignParentTop="true"></TextView>
 
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:orientation="horizontal" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_gravity="center"
-		android:layout_alignParentBottom="true">
-		<Button android:layout_height="wrap_content" android:id="@+id/orderOnPlaceButton"
-			android:text="@string/orderOnPlaceButtonText" android:layout_width="fill_parent"
-			android:layout_gravity="center|bottom" android:textSize="20sp"
-			android:layout_weight="0.5"></Button>
-		<Button android:layout_height="wrap_content" android:id="@+id/showTaxometerButton"
-			android:text="Таксометр" android:layout_width="fill_parent"
-			android:layout_gravity="center|bottom" android:textSize="20sp"
-			android:layout_weight="0.5"></Button>
+	<LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal" >
+
+	    <Button
+	        android:id="@+id/orderOnPlaceButton"
+	        android:layout_width="160dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center|bottom"
+	        android:text="@string/orderOnPlaceButtonText"
+	        android:textSize="20sp" >
+	    </Button>
+
+	    <Button
+	        android:id="@+id/showTaxometerButton"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center|bottom"
+	        android:text="Таксометр"
+	        android:textSize="20sp" >
+	    </Button>
+
 	</LinearLayout>
 
 </RelativeLayout>
