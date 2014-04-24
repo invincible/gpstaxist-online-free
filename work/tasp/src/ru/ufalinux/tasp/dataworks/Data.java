@@ -57,6 +57,7 @@ public class Data {
 	
 	public static String[] dispdiliphones = {"+79173487655","+79177959377","+79177504337","+79191577377"}; // телефоны диспетчера дилижанс
 	public static int dispcurrphone =  0; // какой номер используем, перебираем по очереди 
+	public static String[] dispcp01phones = {"+79646698958"}; // телефоны диспетчера череповец
 	
 	public Data() {
 		incoming = new FIFO();

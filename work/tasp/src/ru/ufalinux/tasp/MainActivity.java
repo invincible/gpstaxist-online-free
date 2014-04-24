@@ -163,6 +163,12 @@ public class MainActivity extends TabActivity {
 				if (Data.dispcurrphone==Data.dispdiliphones.length) { Data.dispcurrphone=0;};
 				intent = new Intent(Intent.ACTION_DIAL); 				// звоним диспетчеру
 				intent.setData(Uri.parse("tel:"+tel.toString()));	startActivity(intent);}
+			else
+			if (MainConfig.jabber.server.equals("cp01.ufalinux.ru")) // для такси таксонтаксон череповец
+			{String tel = Data.dispcp01phones[Data.dispcurrphone];	Data.dispcurrphone = Data.dispcurrphone+1;
+				if (Data.dispcurrphone==Data.dispcp01phones.length) { Data.dispcurrphone=0;};
+				intent = new Intent(Intent.ACTION_DIAL); 				// звоним диспетчеру
+				intent.setData(Uri.parse("tel:"+tel.toString()));	startActivity(intent);}
 			//MainConfig.jabber.
 			return true;
 		case R.id.client_menu_item:
