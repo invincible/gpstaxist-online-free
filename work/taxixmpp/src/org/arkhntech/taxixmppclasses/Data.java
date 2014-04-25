@@ -53,8 +53,7 @@ public class Data extends TimerTask {
 	String stateFileName = "states.st";
 	String accFileName = "accounts.st";
 	String confFileName = "configs.st";
-	//String androidcode = "347"; 
-	// 347 код который пишем в поле fuelstart , при выходе на смену с андроида
+	String androidcode = "347";	// 347 код который пишем в поле fuelstart , при выходе на смену с андроида
 	int gcTTL = 100;
 
 	MainConfig cfg;
@@ -303,13 +302,14 @@ public class Data extends TimerTask {
 			if (!mysql.next()) {
 				// 347 код который пишем в поле fuelstart , при выходе на смену с андроида
 				String sql = "insert into drivershift (driver,sign,channel,pager,car,carid,starttime,stoporder,drvstate,fuelstart) select "
-						+ "refdrivers.num,refdrivers.sign,?,refdrivers.pager,refcars.carnumber,refcars.num,now(),1,1,347"
+						+ "refdrivers.num,refdrivers.sign,?,refdrivers.pager,refcars.carnumber,refcars.num,now(),1,1,?"
 						+ " from refdrivers,refcars where refdrivers.sign=? and refcars.num=?";
 				// System.out.println(sql);
 				mysql.prepare(sql);
 				mysql.setLong(1, channel);
-				mysql.setString(2, comm.sign);
-				mysql.setLong(3, carnum);
+				mysql.setLong(2, androidcode.toString());
+				mysql.setString(3, comm.sign);
+				mysql.setLong(4, carnum);
 
 				mysql.executePrep();
 			}
