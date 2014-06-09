@@ -22,6 +22,7 @@ public class OrderInfoActivity extends Activity {
 	TextView tv;
 	Button bt;
 	Button taxometerButton;
+	
 	ProgressDialog progDialog;
 	ProgressThread progThread;
 	static final int DIALOG_AWAITING_ONPLACE = 0;
@@ -36,6 +37,7 @@ public class OrderInfoActivity extends Activity {
 			tv.setText("Нет активного заказа");
 		bt = (Button) findViewById(R.id.orderOnPlaceButton);
 		taxometerButton=(Button)findViewById(R.id.showTaxometerButton);
+		
 		
 		taxometerButton.setOnClickListener(new OnClickListener() {
 			

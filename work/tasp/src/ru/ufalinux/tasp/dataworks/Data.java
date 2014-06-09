@@ -58,6 +58,7 @@ public class Data {
 	public static String[] dispdiliphones = {"+79173487655","+79177959377","+79177504337","+79191577377"}; // телефоны диспетчера дилижанс
 	public static int dispcurrphone =  0; // какой номер используем, перебираем по очереди 
 	public static String[] dispcp01phones = {"+79646698958"}; // телефоны диспетчера череповец
+	public static String[] dispcp02phones = {"88202201515"}; // телефоны диспетчера череповец, звонок клиенту
 	
 	public Data() {
 		incoming = new FIFO();
@@ -233,6 +234,17 @@ public class Data {
 		Data.totalCost = Data.currTariff.minimalPrice + Data.currTariff.call;
 		comm.body.put("info", Data.totalCost.toString());
 		waiting = Types.A_ORDER_ONDRIVE;
+		outcoming.push(comm);
+	}
+	
+	public static void requestReject(Long id) {
+		Command comm = new Command();
+		comm.type = "A_ORDER";
+		comm.body.put("id", id.toString());
+		comm.body.put("state", "REJECT");
+		//Data.totalCost = Data.currTariff.minimalPrice + Data.currTariff.call;
+		//comm.body.put("info", Data.totalCost.toString());
+		//waiting = Types.A_ORDER_ONDRIVE;
 		outcoming.push(comm);
 	}
 

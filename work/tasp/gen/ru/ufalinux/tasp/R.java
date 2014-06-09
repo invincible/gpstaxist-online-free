@@ -124,6 +124,7 @@ public final class R {
         public static final int totalCostLabelStaticText=0x7f040013;
         public static final int totalKmLabelStaticText=0x7f040011;
         public static final int totalMinutesLabelStaticText=0x7f040012;
+        public static final int txtCALL_TO_CLIENT=0x7f040019;
         public static final int txtSTATUS=0x7f040017;
         public static final int txtSTOPS=0x7f040018;
         public static final int txtand=0x7f040016;

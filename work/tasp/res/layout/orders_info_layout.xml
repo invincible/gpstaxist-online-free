@@ -18,24 +18,21 @@
 	    android:layout_gravity="center"
 	    android:orientation="horizontal" >
 
-	    <Button
-	        android:id="@+id/orderOnPlaceButton"
-	        android:layout_width="160dp"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center|bottom"
-	        android:text="@string/orderOnPlaceButtonText"
-	        android:textSize="20sp" >
-	    </Button>
+		<Button
+		    android:id="@+id/orderOnPlaceButton"
+		    android:layout_width="132dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.50"
+		    android:text="@string/orderOnPlaceButtonText"
+		    android:textSize="20sp" />
 
 	    <Button
 	        android:id="@+id/showTaxometerButton"
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_gravity="center|bottom"
+	        android:layout_weight="1.19"
 	        android:text="Таксометр"
-	        android:textSize="20sp" >
-	    </Button>
-
+	        android:textSize="20sp" />
 	</LinearLayout>
 
 </RelativeLayout>

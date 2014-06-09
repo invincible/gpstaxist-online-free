@@ -27,5 +27,6 @@
     
     <string name="txtSTATUS">Статус</string>
     <string name="txtSTOPS">Стоянки</string>
+    <string name="txtCALL_TO_CLIENT">Звонок клиенту</string>
     
 </resources>

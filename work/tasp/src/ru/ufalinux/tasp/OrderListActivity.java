@@ -82,6 +82,34 @@ public class OrderListActivity extends Activity {
 						startActivity(intent); 
 				
 			}
+
+			private void startCALL_TO_CLIENT(Order currOrderZ) {
+				// TODO Auto-generated method stub
+						String SS =  currOrderZ.clientPhone;
+						
+						//Intent intent = new Intent(android.content.Intent.ACTION_VIEW, 
+						//			 Uri.parse("geo:0,0?q="+SS));
+						if (MainConfig.jabber.server.equals("cp01.ufalinux.ru")) // если череповец
+						 {
+							Intent intent = new Intent(android.content.Intent.ACTION_DIAL, 
+							Uri.parse("tel:"+Data.dispcp02phones[0].toString()));
+							startActivity(intent);
+						 }
+						else
+						 {
+						    Intent intent = new Intent(android.content.Intent.ACTION_DIAL, 
+							Uri.parse("tel:"+SS.toString()));
+						    startActivity(intent);
+						 }
+			}
+			
+			private void startRejectOrder(Order currOrderZ) {
+				// TODO Auto-generated method stub
+
+						Data.requestReject(currOrderZ.id);
+			
+			}
+			
 			
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -89,7 +117,7 @@ public class OrderListActivity extends Activity {
 				try {
 					if (Data.orders.get((int) position).time.equals("99-99")) {
 						System.out.println("ordertimes:" + MainConfig.orderTimes.size());
-						final CharSequence[] items = new String[6];
+						final CharSequence[] items = new String[8];
 						items[0]="5 мин";
 						items[1]="10 мин";
 						items[2]="15 мин";
@@ -99,6 +127,9 @@ public class OrderListActivity extends Activity {
 						items[3] = "Отмена";
 						items[4] = "Показать на карте маршрут";
 						items[5] = "Показать на карте пункт A";
+						items[6] = "Звонок клиенту";
+						items[7] = "Отказ от заказа";
+					
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								getParent());
 						builder.setTitle("Взять заказ:");
@@ -107,6 +138,28 @@ public class OrderListActivity extends Activity {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int item) {
+										if (item == 7) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+												    startRejectOrder(currOrderZ);
+													break;
+													}
+										
+										} else
+										if (item == 6) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+												    startCALL_TO_CLIENT(currOrderZ);
+													break;
+													}
+										
+										} else
 										if (item == 5) 
 										{
 											for (int i = 0; i < Data.orders.size(); i++) 
@@ -150,7 +203,7 @@ public class OrderListActivity extends Activity {
 						ordertimes = builder.create();
 						ordertimes.show();
 					} else {
-						final CharSequence[] items2 = new String[4];
+						final CharSequence[] items2 = new String[6];
 						String time = "";
 						for (int i = 0; i < Data.orders.size(); i++)
 							if (Data.orders.get(i).id == selectedId) {
@@ -161,6 +214,8 @@ public class OrderListActivity extends Activity {
 						items2[1] = "Отмена";
 						items2[2] = "Показать на карте маршрут";
 						items2[3] = "Показать на карте пункт A";
+						items2[4] = "Звонок клиенту";
+						items2[5] = "Отказ от заказа";
 						AlertDialog.Builder builder2 = new AlertDialog.Builder(
 								getParent());
 						builder2.setTitle("Взять заказ:");
@@ -174,6 +229,28 @@ public class OrderListActivity extends Activity {
 												time = Data.orders.get(i).time;
 												break;
 											}
+										if (item == 5) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+													startRejectOrder(currOrderZ);
+													break;
+													}
+										
+										} else
+										if (item == 4) 
+										{
+											for (int i = 0; i < Data.orders.size(); i++) 
+												 if (Data.orders.get(i).id.equals(selectedId)) 
+												    {	
+													Order currOrderZ = Data.orders.get(i);
+												    startCALL_TO_CLIENT(currOrderZ);
+													break;
+													}
+										
+										} else
 										if (item == 3) 
 										{
 											for (int i = 0; i < Data.orders.size(); i++) 
