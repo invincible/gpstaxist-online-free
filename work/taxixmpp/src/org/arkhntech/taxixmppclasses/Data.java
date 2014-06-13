@@ -812,11 +812,11 @@ public class Data extends TimerTask {
 				System.out.println(tmp);
 				// int cnt = mysqlstat.executeUpdate(tmp);
 				mysql.prepare(tmp);
-				mysql.queryPrep();
+				mysql.executePrep();
 				tmp = "update drivershift set drvstate=1,statetime=now() where sign='"
 						+ comm.sign + "' and endtime is null;";
 				mysql.prepare(tmp);
-				mysql.queryPrep();
+				mysql.executePrep();
 				// if (cnt == 1)
 				// return "0\n0\nA_OK";
 				// xxxxxxxxxxx mmm62
