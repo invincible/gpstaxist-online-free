@@ -24,12 +24,14 @@ public class TaxometerThread implements Runnable {
 			// System.err.println("millis "+millis+" interval: "+interval+
 			// " min "+Data.totalMin);
 			if (Data.currState == Types.A_ORDER_ONDRIVE) {
+				//if (currLoc.getSpeed() < Data.currTariff.autoMinutesSpeed) {
 				if (currLoc.getSpeed() < Data.currTariff.autoMinutesSpeed) {
 					Data.totalMin += interval;
 					float tmpmin = (Data.totalMin - Data.currTariff.waitMinutes);
-					if (tmpmin > 0 || Data.totalKm > 0)
-						Data.totalCost += Data.currTariff.priceMinute
-								* interval;
+				// Не считаем простой 	
+				//	if (tmpmin > 0 || Data.totalKm > 0)
+				//		Data.totalCost += Data.currTariff.priceMinute
+				//				* interval;
 				}
 
 				if (Data.gpsLastLoc == null) { // no previous location
